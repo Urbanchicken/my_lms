@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Searched...
+{% endblock title %}
+
+{% block content %}
+    {% if book %}
+        <p>
+            <a href="{% url 'core:details' book.uuid %}">
+                <img src="{{ book.cover_photo.url }}" alt="No Image Found" width="200" height="200">
+                <p>{{ book.title }}</p>
+            </a>
+            <p>{{ book.author }}</p>
+            <p>{{ book.publisher }}</p>
+            <p>{{ book.genre }}</p>
+            <p>{{ book.get_status_display }}</p>
+        </p>
+        <hr>
+        <h5>Similar titles...</h5>
+        {% for book in others %} 
+            <p>
+                <a href="{% url 'core:details' book.uuid %}">
+                    <img src="{{ book.cover_photo.url }}" alt="No Image Found" width="200" height="200">
+                    <p>{{ book.title }}</p>
+                </a>
+                <p>{{ book.author }}</p>
+                <p>{{ book.publisher }}</p>
+                <p>{{ book.genre }}</p>
+                <p>{{ book.get_status_display }}</p>
+            </p>
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>The book you requested for is Unavailable</p>
+    {% endif %}
+{% endblock content %}

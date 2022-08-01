@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Login 
+{% endblock title %}
+
+{% block header %}
+    <p>
+        <a href="{% url 'core:index' %}">LMS</a> 
+    </p>
+{% endblock header %}
+
+{% block content %}
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <form action="{% url 'users:login' %}" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button>Log in</button>
+        <input type="hidden" name="next" value="{% url 'core:index' %}">
+    </form>
+    <a href="{% url 'users:signup' %}"><button>Sign up</button></a>
+{% endblock content %}

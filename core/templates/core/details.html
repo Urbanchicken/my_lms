@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ book.title }}
+{% endblock title %}
+
+{% block header %}
+    <p>
+        <a href="{% url 'core:index' %}">LMS</a> - 
+        {% if user.is_authenticated %}
+            {{ user.username }} - 
+            <a href="{% url 'users:signout' %}">Sign Out</a> - 
+            <a href="{% url 'core:new_book' %}">Add book</a> -
+            {% if user.role == 'Student' %}
+                <a href="{% url 'users:profile' user.id %}">Profile</a> -
+            {% endif %}
+        {% endif %}
+    </p>
+{% endblock header %}
+
+{% block content %}
+    <img src="{{ book.cover_photo.url }}" alt="No Image Found" width="500" height="500">
+    <h1>{{book.title}}</h1>
+    <p>{{book.author}}</p>
+    <p>{{book.publisher}}</p>
+    <p>{{ book.summary|linebreaks }}</p>
+    <p>Request for book</p>
+    {% if book.status == 'A' %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if perms.core.can_request_book %}
+            <button><a href="{% url 'core:request_book' book.uuid %}">Available</a></button>
+        {% endif %}
+    {% elif book.status == 'R' %}
+        <button type="button" disabled>Requested</button>
+        {% if perms.core.can_change_status %}
+            <button><a href="{% url 'core:take_book' book.uuid %}">Set Taken</a></button>
+        {% endif %}
+    {% else %}
+        <button type="button" disabled>Unavailable</button>
+        {% if userr %}
+            <button><a href="{% url 'core:return_book' book.uuid %}">Return</a></button>
+        {% endif %}
+    {% endif %}
+{% endblock content %}
+
+
+

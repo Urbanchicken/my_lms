@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Library Management System
+{% endblock title %}
+{% block content %}
+    <p>Welcome to the Library!</p>
+    <form method="POST" action="{% url 'core:searched' %}">
+        {% csrf_token %}
+        <label for="search">Search</label>
+        <input type="text" name="search" id="search" placeholder="Search for a book" required>
+        <br>
+        <button name="submit">Search</button> 
+    </form>
+{% endblock content %}

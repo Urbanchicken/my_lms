@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Signup 
+{% endblock title %}
+
+{% block header %}
+    <p>
+        <a href="{% url 'core:index' %}">LMS</a> 
+    </p>
+{% endblock header %}
+
+{% block content %}
+    <form action="{% url 'users:signup' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button name="submit">Signup</button>
+    </form>
+{% endblock content %}

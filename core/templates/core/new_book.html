@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+    New Book 
+{% endblock title %}
+
+{% block header %}
+    <p>
+        <a href="{% url 'core:index' %}">LMS</a> - 
+        {% if user.is_authenticated %}
+            {{ user.username }} - 
+        {% endif %}
+    </p>
+{% endblock header %}
+
+{% block content %}
+    <form action="{% url 'core:new_book' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit">Add Book</button>
+        <input type="hidden" name="next" value="{% url 'core:index' %}">
+    </form>
+{% endblock content %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ user.username }}
+{% endblock title %}
+
+{% block header %}
+    <p>
+        <a href="{% url 'core:index' %}">LMS</a> - 
+        <a href="{% url 'users:signout' %}">Sign Out</a> - 
+    </p>
+{% endblock header %}
+
+{% block content %}
+    <img src="{{ user.profile_picture.url }}" width="70" height="70">
+    <h3>@{{ user.username }}</h3>
+    <p>Student No: {{ user.std_number }}</p>
+    <p>First Name: {{ user.first_name }}</p>
+    <p>Last Name: {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
+    <hr>
+    <!-- <p><a href="{% url 'users:notifications' user.id %}">Notifications</a></p>  datetime information not yet functional -->
+    <button type='button' disabled>Notifications</button>
+    <h4>Borrowed Books</h4>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publisher</th>
+            <th>Date Borrowed</th>
+        </tr>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.publisher }}</td>
+            <td>{{ book.date_borrowed }}</td>
+        </tr>
+    </table>
+        {% empty %}
+            <p>Borrowed books will appear here!</p>
+        {% endfor %}
+{% endblock content %}

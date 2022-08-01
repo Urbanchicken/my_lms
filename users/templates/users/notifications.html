@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Notifications
+{% endblock title %}
+
+{% block header %}
+    <p>
+        <a href="{% url 'core:index' %}">LMS</a> - 
+        Hello, {{ user.username }} - 
+        <a href="{% url 'users:signout' %}">Sign Out</a> - 
+        <a href="{% url 'core:new_book' %}">Add book</a> -
+    </p>
+{% endblock header %}
+
+{% block content %}
+    {% if book %}
+        {% if book.is_due %}
+            <p>You are reminded to return: {{ book.title }}</p>
+        {% else %}
+            <p>You are reminded that the return date for <a href="{% url 'core:details' book.uuid %}">"{{ book.title }}"</a> is {{ book.due_date|date:'M d, Y H:m' }}</p>
+        {% endif %}
+    {% else %}
+        <p>No notifications!</p>
+    {% endif %}
+{% endblock content %}
